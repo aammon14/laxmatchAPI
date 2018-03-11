@@ -6,4 +6,22 @@ class User < ApplicationRecord
   validates :role, presence: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
+
+  attr_reader :password
+
+  def self.find_from_credentials(username, password)
+    user = find_by(username: username)
+    return nil unless user
+    user if user.is_password?(password)
+  end
+
+  def is_password?(password_attempt)
+    BCrypt::Password.new(password_digest).is_password?(password_attempt)
+  end
+
+  def password=(password)
+    @password = password
+    self.password_digest = BCrypt::Password.create(password)
+  end
+  
 end
