@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   before_save { self.email = email.downcase }
-  validates :name, presence: true, length: { minimum: 3, maximum: 50 }
+  # validates :name, presence: true, length: { minimum: 3, maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 50 }, format: { with: VALID_EMAIL_REGEX}, uniqueness: { case_sensitive: false }
   validates :role, presence: true
@@ -9,8 +9,8 @@ class User < ApplicationRecord
 
   attr_reader :password
 
-  def self.find_from_credentials(username, password)
-    user = find_by(username: username)
+  def self.find_from_credentials(email, password)
+    user = find_by(email: email)
     return nil unless user
     user if user.is_password?(password)
   end

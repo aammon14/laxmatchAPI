@@ -16,16 +16,26 @@ class UsersController < ApplicationController
     render json: user
   end
 
-
   def new
     @user = User.new
   end
 
   def create
-    user = User.create!(user_params)
+    name = params[:name]
+    email = params[:email]
+    password = params[:password]
+    role = params[:role]
 
-    if user
-      render json: {token: gen_token(user.id)}
+    new_user = User.create!({
+      name: name,
+      email: email,
+      password: password,
+      role: role
+    })
+
+    user = User.find_from_credentials email, password
+    if new_user
+      render json: {user: user, token: gen_token(user.id)}
     else
       render json: {err: 'Sorry there was an error'}
     end
@@ -69,7 +79,7 @@ class UsersController < ApplicationController
 
   private 
     def user_params
-      params.require(:user).permit(:name, :email, :role, :password)
+      params.require(:user).permit(:name, :email, :password, :role)
     end
 
 end
