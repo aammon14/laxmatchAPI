@@ -1,6 +1,6 @@
 class CoachesController < ApplicationController
   def show
-    coach = Coach.find(params[:user_id])
+    coach = Coach.find(params[:id])
     render json: coach
   end
 

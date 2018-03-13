@@ -16,6 +16,20 @@ class UsersController < ApplicationController
     render json: user
   end
 
+  def showCoach
+    user = User.find(params[:id])
+    userid = user.id
+    coach = Coach.find_by(user_id: userid)
+    render json: coach
+  end
+
+  def showPlayer
+    user = User.find(params[:id])
+    userid = user.id
+    player = Player.find_by(user_id: userid)
+    render json: player
+  end
+
   def new
     @user = User.new
   end
