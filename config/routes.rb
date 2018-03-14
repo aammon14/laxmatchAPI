@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   post 'users/login', :to => 'users#login'
   get 'users/:id/coach', :to => 'users#showCoach'
   get 'users/:id/player', :to => 'users#showPlayer'
+  put 'users/:id/player', :to => 'players#updatePlayer'
+  post 'users/:id/player', :to => 'players#createPlayer'
 end
