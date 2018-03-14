@@ -13,16 +13,24 @@ class PlayersController < ApplicationController
     age = params[:age]
     zip_code = params[:zip_code]
     bio = params[:bio]
+    user_id = params[:user_id]
 
-    user = User.find(params[:id])
-    userid = user.id
-    player = Player.find_by(user_id: userid)
+    # user = User.find(params[:id])
+    # userid = user.id
+    # player = Player.find_by(user_id: userid)
     player = Player.create!({
-      age: age
-      zip_code: zip_code
-      bio: bio
-      user_id: userid
+      age: age,
+      zip_code: zip_code,
+      bio: bio,
+      user_id: user_id
     })
+
+    if player
+      render json: player
+    else
+      render json: {err: 'Sorry there was an error'}
+    end
+
   end
 
   def updatePlayer
@@ -30,7 +38,7 @@ class PlayersController < ApplicationController
     userid = user.id
     player = Player.find_by(user_id: userid)
     player.update!(player_params)
-    render json: user
+    render json: {playerInfo: player}
   end
 
   private 

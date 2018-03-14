@@ -26,8 +26,8 @@ class UsersController < ApplicationController
   def showPlayer
     user = User.find(params[:id])
     userid = user.id
-    player = Player.find_by(user_id: userid)
-    render json: player
+    @player = Player.find_by(user_id: userid)
+    render json: @player
   end
 
   def new
@@ -78,6 +78,7 @@ class UsersController < ApplicationController
     password = params[:password]
 
     user = User.find_from_credentials email, password
+    
     if user.nil?
       render json: { err: 'No user' }
     else
