@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312190249) do
+ActiveRecord::Schema.define(version: 20180315134204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 20180312190249) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_coaches_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "player_id"
+    t.bigint "coach_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coach_id"], name: "index_messages_on_coach_id"
+    t.index ["player_id"], name: "index_messages_on_player_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -47,5 +57,7 @@ ActiveRecord::Schema.define(version: 20180312190249) do
   end
 
   add_foreign_key "coaches", "users"
+  add_foreign_key "messages", "coaches"
+  add_foreign_key "messages", "players"
   add_foreign_key "players", "users"
 end
